@@ -1,71 +1,59 @@
 "use client";
 
 import React, { useState } from "react";
-import { PenTool, Brain, ArrowUpRight, CloudLightning, Check, Globe } from "lucide-react";
+import { PenTool, Brain, CloudLightning, Check, Globe } from "lucide-react";
 
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
 
   const steps = [
     {
-      title: "1. Select Template & Enter Context",
-      desc: "Pick from 100+ industry-focused prompts or type custom instructions. Feed files, URLs, or background context to guide the generation style.",
+      title: "1. Select Template & Context",
+      desc: "Choose from 100+ industry-focused prompts. Feed your URLs or documents to guide the generation style.",
       icon: PenTool,
       preview: (
-        <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-4">
-          <div className="flex gap-2">
-            <span className="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-semibold">SEO Article</span>
-            <span className="px-2.5 py-1 rounded-lg bg-white/5 text-slate-400 text-xs font-semibold">Social Hook</span>
+        <div className="p-6 rounded-2xl bg-[#0f0b24]/50 border border-white/5 backdrop-blur-xl">
+          <div className="flex gap-2 mb-4">
+            <span className="px-2 py-1 rounded-md bg-indigo-500/10 text-indigo-400 text-[10px] uppercase font-bold tracking-wider">SEO Mode</span>
           </div>
-          <div className="space-y-1.5">
-            <span className="text-[10px] text-slate-500 block uppercase font-bold">PROMPT CONTEXT</span>
-            <div className="p-3 rounded-xl bg-white/2 border border-white/5 text-xs text-slate-300 italic font-medium">
-              &quot;Create a SaaS product page focusing on lightning-fast speed and dark-mode styling...&quot;
-            </div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-xs text-slate-300 italic font-medium leading-relaxed">
+            "Create a high-converting SaaS landing page section focusing on lightning speed and dark-mode aesthetics..."
           </div>
         </div>
       )
     },
     {
-      title: "2. Real-Time Multi-Model Processing",
-      desc: "Prompt-Flow routes your prompt to the best-suited model (Claude, GPT, or Gemini) based on speed, reasoning, and context limits. High-speed tokens process your request in seconds.",
+      title: "2. Real-Time Processing",
+      desc: "Prompt-Flow routes your prompt to the best-suited model (Claude, GPT, or Gemini) for maximum accuracy.",
       icon: Brain,
       preview: (
-        <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3 relative overflow-hidden">
-          <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
-            <span className="text-xs text-slate-400 font-semibold">Cognitive Routing</span>
-            <span className="text-xs text-cyan-400 font-bold">Engine active</span>
+        <div className="p-6 rounded-2xl bg-[#0f0b24]/50 border border-white/5 backdrop-blur-xl space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-slate-400 font-medium">Model Routing</span>
+            <span className="text-[10px] text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded-full font-bold">ACTIVE</span>
           </div>
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs p-2 rounded-lg bg-white/2 border border-white/5">
-              <span>Reasoning Depth</span>
-              <span className="text-teal-400 font-bold">99.8%</span>
+            <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+              <div className="h-full bg-cyan-500 w-[85%] animate-pulse" />
             </div>
-            <div className="flex items-center justify-between text-xs p-2 rounded-lg bg-white/2 border border-white/5">
-              <span>Token Flow Speed</span>
-              <span className="text-cyan-400 font-bold">120 tokens/sec</span>
-            </div>
+            <div className="text-[10px] text-slate-500 text-right">Processing... 120 t/s</div>
           </div>
         </div>
       )
     },
     {
-      title: "3. Optimize & Export Globally",
-      desc: "Instantly check SEO scores, verify originality with the plagiarism checker, and publish directly to Webflow, HubSpot, or download clean markdown assets.",
+      title: "3. Publish & Optimize",
+      desc: "Verify originality with our plagiarism checker and sync content to Webflow, HubSpot, or Markdown.",
       icon: CloudLightning,
       preview: (
-        <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-4">
-          <div className="flex items-center gap-2 text-emerald-400 text-sm font-semibold">
-            <Check className="h-5 w-5 bg-emerald-500/10 p-0.5 rounded-full" />
-            <span>SEO Score Optimized</span>
+        <div className="p-6 rounded-2xl bg-[#0f0b24]/50 border border-white/5 backdrop-blur-xl space-y-4">
+          <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold">
+            <Check className="h-4 w-4 bg-emerald-500/20 p-0.5 rounded-full" />
+            <span>SEO Optimized & Verified</span>
           </div>
           <div className="flex gap-2">
-            <button className="flex items-center gap-1.5 px-3 py-2 bg-teal-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition-colors w-full justify-center">
-              <Globe className="h-3.5 w-3.5" />
-              <span>Sync to Webflow</span>
-            </button>
-            <button className="px-3 py-2 bg-white/5 border border-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-semibold transition-colors w-full text-center">
-              Export MD
+            <button className="flex-1 py-2 bg-gradient-to-r from-indigo-600 to-cyan-600 text-white rounded-lg text-xs font-bold shadow-lg shadow-cyan-900/20">
+              Sync to Webflow
             </button>
           </div>
         </div>
@@ -74,86 +62,56 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="relative py-24 scroll-mt-16 bg-[#030014]/60">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-[#08060f] relative">
+      <div className="mx-auto max-w-6xl px-6">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="px-3 py-1 rounded-full border border-cyan-500/30 bg-teal-500/10 text-xs font-semibold text-cyan-300">
-            Platform Workflow
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            How It Works in <span className="text-gradient">Three Simple Steps</span>
+        <div className="text-center max-w-2xl mx-auto mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Workflow in <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Three Steps</span>
           </h2>
-          <p className="mt-4 text-base text-slate-400">
-            Follow the highly automated workflow that transforms rough draft ideas into enterprise-grade publication-ready copy.
-          </p>
+          <p className="text-slate-400">Transform raw ideas into publication-ready copy with an enterprise-grade automated workflow.</p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Steps Left Selector */}
-          <div className="lg:col-span-6 space-y-6">
-            {steps.map((step, idx) => {
-              const Icon = step.icon;
-              const isSelected = activeStep === idx;
-              return (
-                <div
-                  key={idx}
-                  onClick={() => setActiveStep(idx)}
-                  className={`group p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
-                    isSelected
-                      ? "bg-white/5 border-cyan-500/50 shadow-xl shadow-purple-950/10 scale-[1.01]"
-                      : "bg-transparent border-white/5 hover:bg-white/2 hover:border-white/10"
-                  }`}
-                >
-                  <div className="flex gap-4">
-                    <div className={`p-3 rounded-xl border transition-all ${
-                      isSelected
-                        ? "bg-teal-600 border-cyan-500 text-white"
-                        : "bg-white/5 border-white/10 text-slate-400 group-hover:text-white"
-                    }`}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h3 className={`text-base sm:text-lg font-bold transition-colors ${
-                        isSelected ? "text-white" : "text-slate-300 group-hover:text-white"
-                      }`}>
-                        {step.title}
-                      </h3>
-                      <p className="mt-2 text-sm text-slate-400 leading-relaxed">
-                        {step.desc}
-                      </p>
-                    </div>
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          {/* Left Selector */}
+          <div className="lg:col-span-5 space-y-4">
+            {steps.map((step, idx) => (
+              <div
+                key={idx}
+                onClick={() => setActiveStep(idx)}
+                className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                  activeStep === idx 
+                  ? "bg-white/[0.03] border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.1)]" 
+                  : "bg-transparent border-transparent hover:bg-white/[0.02] hover:border-white/5"
+                }`}
+              >
+                <div className="flex gap-4">
+                  <div className={`p-3 rounded-xl ${activeStep === idx ? "bg-indigo-600 text-white" : "bg-white/5 text-slate-400"}`}>
+                    <step.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-sm mb-1">{step.title}</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
 
-          {/* Steps Right Preview Window */}
-          <div className="lg:col-span-6 w-full">
-            <div className="relative p-1 rounded-3xl bg-gradient-to-r from-blue-500/25 to-cyan-500/25 border border-white/10 shadow-2xl shadow-indigo-950/20 max-w-md mx-auto">
-              <div className="p-6 rounded-[22px] bg-[#0c0824] space-y-6">
-                <div className="flex items-center justify-between border-b border-white/5 pb-3">
-                  <span className="text-xs font-semibold text-slate-400">Interactive Preview Workspace</span>
-                  <div className="flex gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-slate-700" />
-                    <span className="h-2 w-2 rounded-full bg-slate-700" />
-                    <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
-                  </div>
-                </div>
-
-                <div className="transition-all duration-300">
-                  {steps[activeStep].preview}
-                </div>
+          {/* Right Preview */}
+          <div className="lg:col-span-7">
+            <div className="relative group p-1 rounded-3xl bg-gradient-to-b from-white/10 to-transparent">
+              <div className="bg-[#0b0819] rounded-[22px] p-8 border border-white/5 shadow-2xl">
+                 <div className="flex gap-2 mb-6">
+                    <div className="h-3 w-3 rounded-full bg-red-500/20" />
+                    <div className="h-3 w-3 rounded-full bg-yellow-500/20" />
+                    <div className="h-3 w-3 rounded-full bg-emerald-500/20" />
+                 </div>
+                 {steps[activeStep].preview}
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );

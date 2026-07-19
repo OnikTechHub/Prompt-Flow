@@ -102,97 +102,123 @@ export default function Hero({ onLogin, isAuthenticated, onPromptGenerated }) {
   };
 
   return (
-    <section className="relative overflow-hidden pt-20 pb-24 md:pt-28 md:pb-36">
-      {/* Background ambient glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[350px] sm:h-[500px] sm:w-[500px] rounded-full bg-blue-600/10 blur-[80px] sm:blur-[120px] pointer-events-none animate-pulse-slow" />
-      <div className="absolute top-1/3 left-1/3 h-[300px] w-[300px] sm:h-[450px] sm:w-[450px] rounded-full bg-cyan-950/10 blur-[80px] sm:blur-[120px] pointer-events-none" />
+    <section className="relative overflow-hidden bg-[#08060f] pt-24 pb-24 md:pt-32 md:pb-36">
+      {/* Background ambient glows — amber/rose signal instead of blue/cyan */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[350px] sm:h-[500px] sm:w-[500px] rounded-full bg-amber-600/10 blur-[80px] sm:blur-[120px] pointer-events-none animate-pulse-slow" />
+      <div className="absolute top-1/3 left-1/3 h-[300px] w-[300px] sm:h-[450px] sm:w-[450px] rounded-full bg-rose-950/20 blur-[80px] sm:blur-[120px] pointer-events-none" />
+      {/* faint scanline grid for console mood */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.035]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Heading and CTAs */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
             {/* Version Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/30 bg-teal-500/10 text-xs font-semibold text-cyan-300 mb-6 hover:border-cyan-400/50 transition-colors">
-              <Sparkles className="h-3 w-3 text-cyan-400" />
-              <span>Version 2.0: Multi-Model Playground is Live</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-amber-400/25 bg-amber-400/[0.06] mb-6">
+              <span className="flex items-end gap-[2px]" aria-hidden="true">
+                <span className="eq-bar w-[2.5px] rounded-full bg-amber-400" style={{ animationDelay: "0ms" }} />
+                <span className="eq-bar w-[2.5px] rounded-full bg-amber-400" style={{ animationDelay: "140ms" }} />
+                <span className="eq-bar w-[2.5px] rounded-full bg-amber-400" style={{ animationDelay: "280ms" }} />
+              </span>
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-300">
+                v2.0 — multi-model playground live
+              </span>
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              Craft Perfect Content at <span className="text-gradient">10x Speed</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+              Craft perfect content at{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400">
+                10x speed
+              </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-6 text-base sm:text-lg text-slate-400 max-w-xl">
-              Prompt-Flow brings advanced content writing, coding scripts, and marketing copy models under one premium glassmorphic dashboard. Zero boilerplate. Max conversions.
+            <p className="mt-6 text-base sm:text-lg text-white/45 max-w-xl leading-relaxed">
+              Prompt-Flow runs advanced writing, code, and marketing models inside one console-grade
+              workspace. Zero boilerplate. Max conversions.
             </p>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button 
                 onClick={onLogin}
-                href="/dashboard"
-                className="flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-linear-to-r from-teal-500 via-cyan-500 to-emerald-500 rounded-xl hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                className="group flex items-center justify-center gap-2 px-6 py-3.5 text-[13px] font-extrabold uppercase tracking-[0.08em] text-[#08060f] bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl hover:shadow-[0_0_20px_-2px_rgba(34,211,238,0.5)] transition-all cursor-pointer"
               >
                 {isAuthenticated ? "Go to Dashboard" : "Start Generating Free"}
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
               </button>
               <a 
                 href="#how-it-works"
-                className="flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all"
+                className="flex items-center justify-center gap-2 px-6 py-3.5 text-[13px] font-bold uppercase tracking-[0.08em] text-white/70 hover:text-white bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 rounded-md transition-all"
               >
-                <Play className="h-4 w-4 fill-current" />
+                <Play className="h-3.5 w-3.5 fill-current" />
                 <span>Watch Demo</span>
               </a>
             </div>
 
             {/* Trust Badges */}
-            <div className="mt-8 flex items-center gap-6 text-xs text-slate-500">
+            <div className="mt-9 flex items-center gap-6 font-mono text-[11px] text-white/35">
               <div className="flex items-center gap-1.5">
-                <Check className="h-4 w-4 text-emerald-500" />
-                <span>No Credit Card Required</span>
+                <Check className="h-3.5 w-3.5 text-amber-400" />
+                <span>No card required</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Check className="h-4 w-4 text-emerald-500" />
-                <span>10,000 Free Words</span>
+                <Check className="h-3.5 w-3.5 text-amber-400" />
+                <span>10,000 free words</span>
               </div>
             </div>
           </div>
 
           {/* Right Column: Live Interactive Playground Scaffolding */}
           <div className="lg:col-span-7 w-full">
-            <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl shadow-indigo-950/20 border border-white/10 max-w-2xl mx-auto">
-              
-              {/* Card Header (Mac-style buttons and prompt status) */}
-              <div className="flex items-center justify-between px-4 py-3 bg-white/3 border-b border-white/5">
+            <div className="relative rounded-lg overflow-hidden border border-white/10 bg-[#0c0a16] shadow-2xl shadow-black/60 max-w-2xl mx-auto">
+
+              {/* moving gradient hairline across the top of the console */}
+              <div className="h-[2px] w-full bg-[length:200%_100%] animate-flowline bg-gradient-to-r from-amber-400 via-rose-400 to-indigo-400" />
+
+              {/* Card Header (console-style traffic lights and live status) */}
+              <div className="flex items-center justify-between px-4 py-3 bg-white/[0.02] border-b border-white/[0.06]">
                 <div className="flex gap-1.5">
-                  <span className="h-3 w-3 rounded-full bg-pink-500/70" />
-                  <span className="h-3 w-3 rounded-full bg-amber-500/70" />
-                  <span className="h-3 w-3 rounded-full bg-emerald-500/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-rose-400/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-indigo-400/70" />
                 </div>
-                <div className="flex items-center gap-1">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[11px] font-medium text-slate-400">Prompt-Flow-Engine-v2.0</span>
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  <span className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-white/35">
+                    prompt-flow-engine — v2.0
+                  </span>
                 </div>
               </div>
 
-              {/* Playground Tabs */}
-              <div className="grid grid-cols-4 border-b border-white/5">
+              {/* Playground Tabs — underline tab-strip, matches nav */}
+              <div className="flex border-b border-white/[0.06]">
                 {templates.map((tpl) => {
                   const Icon = tpl.icon;
+                  const isActive = activeTab.id === tpl.id;
                   return (
                     <button
                       key={tpl.id}
                       onClick={() => !isGenerating && setActiveTab(tpl)}
                       disabled={isGenerating}
-                      className={`flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-1 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
-                        activeTab.id === tpl.id 
-                          ? "border-cyan-500 text-white bg-teal-500/5" 
-                          : "border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/2"
+                      className={`relative flex flex-1 flex-col sm:flex-row items-center justify-center gap-2 py-3.5 px-1 text-[11px] font-bold uppercase tracking-[0.08em] transition-all cursor-pointer ${
+                        isActive ? "text-white" : "text-white/35 hover:text-white/70"
                       } ${isGenerating ? "opacity-50 cursor-not-allowed" : ""}`}
                     >
                       <Icon className="h-4 w-4" />
                       <span className="hidden sm:inline">{tpl.name}</span>
+                      {isActive && (
+                        <span className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full bg-gradient-to-r from-amber-400 to-rose-400" />
+                      )}
                     </button>
                   );
                 })}
@@ -203,15 +229,15 @@ export default function Hero({ onLogin, isAuthenticated, onPromptGenerated }) {
                 
                 {/* Input Prompt Box */}
                 <div>
-                  <label className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Input Prompt</label>
-                  <div className="mt-1 flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/5">
-                    <span className="text-sm font-medium text-slate-200 truncate pr-4">
+                  <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/35 font-bold">Input prompt</label>
+                  <div className="mt-1.5 flex items-center justify-between p-3 rounded-md bg-black/40 border border-white/[0.06]">
+                    <span className="text-sm font-medium text-white/80 truncate pr-4">
                       &quot;{activeTab.prompt}&quot;
                     </span>
                     <button 
                       onClick={() => !isGenerating && simulateGeneration(activeTab)} 
                       disabled={isGenerating}
-                      className="p-1.5 rounded-lg bg-teal-600/20 hover:bg-teal-600/40 text-teal-400 transition-colors cursor-pointer disabled:opacity-50"
+                      className="p-1.5 rounded-md bg-amber-400/10 hover:bg-amber-400/20 text-amber-400 transition-colors cursor-pointer disabled:opacity-50"
                       title="Regenerate"
                     >
                       <RefreshCw className={`h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
@@ -221,17 +247,17 @@ export default function Hero({ onLogin, isAuthenticated, onPromptGenerated }) {
 
                 {/* Simulated AI Output Panel */}
                 <div className="relative">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Generated Result</label>
+                  <label className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/35 font-bold">Generated result</label>
                   
-                  <div className="mt-1 min-h-[140px] p-4 rounded-xl bg-black/60 border border-white/5 font-mono text-sm leading-relaxed text-slate-300 relative overflow-hidden select-text">
+                  <div className="mt-1.5 min-h-[140px] p-4 rounded-md bg-black/60 border border-white/[0.06] font-mono text-sm leading-relaxed text-white/70 relative overflow-hidden select-text">
                     
                     {/* Running Loader or Bar */}
                     {isGenerating && progress < 100 && (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[1px]">
-                        <span className="text-xs font-semibold text-cyan-400 mb-2">Analyzing Prompt Context...</span>
-                        <div className="h-1.5 w-40 bg-white/10 rounded-full overflow-hidden">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 backdrop-blur-[1px]">
+                        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-amber-400 mb-2">Analyzing prompt context...</span>
+                        <div className="h-1 w-40 bg-white/10 rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-150"
+                            className="h-full bg-gradient-to-r from-amber-400 to-rose-400 transition-all duration-150"
                             style={{ width: `${progress}%` }}
                           />
                         </div>
@@ -242,12 +268,12 @@ export default function Hero({ onLogin, isAuthenticated, onPromptGenerated }) {
                     {displayText ? (
                       <p className="whitespace-pre-line">{displayText}</p>
                     ) : (
-                      !isGenerating && <p className="text-slate-600 italic">Ready to generate...</p>
+                      !isGenerating && <p className="text-white/25 italic">Ready to generate...</p>
                     )}
 
                     {/* Cursor blinking */}
                     {isGenerating && progress >= 100 && (
-                      <span className="inline-block w-1.5 h-4 ml-1 bg-teal-400 animate-pulse" />
+                      <span className="inline-block w-1.5 h-4 ml-1 bg-amber-400 animate-pulse" />
                     )}
                   </div>
 
@@ -255,12 +281,12 @@ export default function Hero({ onLogin, isAuthenticated, onPromptGenerated }) {
                   {displayText && !isGenerating && (
                     <button 
                       onClick={handleCopy}
-                      className="absolute right-3 bottom-3 p-2 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/10 text-slate-400 hover:text-white transition-all cursor-pointer flex items-center gap-1.5 text-xs font-semibold"
+                      className="absolute right-3 bottom-3 p-2 rounded-md bg-white/[0.04] border border-white/[0.06] hover:border-white/10 hover:bg-white/[0.08] text-white/50 hover:text-white transition-all cursor-pointer flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wide"
                     >
                       {copied ? (
                         <>
-                          <Check className="h-3.5 w-3.5 text-emerald-400" />
-                          <span className="text-emerald-400">Copied!</span>
+                          <Check className="h-3.5 w-3.5 text-amber-400" />
+                          <span className="text-amber-400">Copied</span>
                         </>
                       ) : (
                         <>
@@ -279,6 +305,24 @@ export default function Hero({ onLogin, isAuthenticated, onPromptGenerated }) {
 
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes flowline {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 200% 50%; }
+        }
+        .animate-flowline {
+          animation: flowline 6s linear infinite;
+        }
+        @keyframes eqbar {
+          0%, 100% { height: 4px; opacity: 0.5; }
+          50% { height: 10px; opacity: 1; }
+        }
+        .eq-bar {
+          height: 6px;
+          animation: eqbar 900ms ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }

@@ -32,12 +32,12 @@ export default function CTA({ onLogin }) {
           </div>
 
           <h2 className="mt-6 text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Supercharge Your Workflow <br className="hidden sm:inline" />
-            With <span className="text-gradient">Prompt-Flow</span>
+           Ready to <br className="hidden sm:inline" />
+            Transform <span className="text-gradient">Your Workflow?</span>
           </h2>
           
           <p className="mt-4 max-w-xl mx-auto text-base text-slate-400">
-            Join 45k+ copywriters, founders, and developers. Lock in your free monthly tokens and start generating clean, structured copy in seconds.
+            oin thousands of professional creators using our platform to build, automate, and scale their content strategy in minutes.
           </p>
 
           {!submitted ? (

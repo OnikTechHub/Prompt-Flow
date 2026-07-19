@@ -1,208 +1,98 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { 
   PenTool, Code, BarChart2, Cpu, Users, 
-  Calendar, CheckCircle, ArrowUpRight, Globe2
+  Calendar, X 
 } from "lucide-react";
 
 export default function Features() {
-  const coreFeatures = [
+  const [selectedFeature, setSelectedFeature] = useState(null);
+
+  const features = [
     {
-      title: "Smart Article & Blog Architect",
-      desc: "Produce structured, high-quality, long-form content optimized for SEO in one click. Features auto-linking and outline builders.",
+      title: "Smart Content Architect",
+      desc: "Produce structured, high-quality content optimized for SEO in one click.",
       icon: PenTool,
-      badge: "Popular",
-      accent: "from-blue-500/20 to-teal-500/20",
-      className: "md:col-span-2",
-      visual: (
-        <div className="mt-6 p-4 rounded-xl bg-black/40 border border-white/5 font-sans text-xs space-y-2">
-          <div className="flex items-center gap-2 text-cyan-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-400" />
-            <span>Keyword Focus: &quot;AI Coding Assistant&quot;</span>
-          </div>
-          <div className="h-2 w-3/4 bg-white/20 rounded" />
-          <div className="h-2 w-full bg-white/10 rounded" />
-          <div className="h-2 w-5/6 bg-white/10 rounded" />
-          <div className="flex gap-2 pt-2">
-            <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-semibold">SEO Score: 98/100</span>
-            <span className="px-2 py-0.5 rounded bg-teal-500/20 text-cyan-300 font-semibold">1,240 Words</span>
-          </div>
-        </div>
-      )
+      detail: "Our Smart Content Architect module utilizes advanced AI technology to generate SEO-friendly, long-form articles. It streamlines your writing process through automated internal linking and intelligent outline building, making your workflow 100x faster and more precise."
     },
     {
       title: "Universal Code Synthesizer",
-      desc: "Write, debug, and translate code across 20+ programming languages. Instantly generate setup boilerplates.",
+      desc: "Write, debug, and translate code across 20+ programming languages.",
       icon: Code,
-      accent: "from-teal-500/20 to-cyan-500/20",
-      className: "md:col-span-1",
-      visual: (
-        <div className="mt-6 p-3 rounded-xl bg-[#090616] border border-white/5 font-mono text-[10px] text-slate-400 space-y-1">
-          <div className="text-cyan-400">const generate = async () =&gt; &#123;</div>
-          <div className="pl-3">{"const res = await fetch(\"/api/v1\");"}</div>
-          <div className="pl-3 text-blue-400">return res.json();</div>
-          <div className="text-cyan-400">&#125;;</div>
-        </div>
-      )
+      detail: "This synthesizer is a powerful tool designed for modern developers. It doesn't just help write code; it assists in complex bug fixes and seamless conversion between various programming languages, significantly reducing your development time."
     },
     {
       title: "Multi-Model Cognitive Engine",
-      desc: "Access GPT-4o, Claude 3.5 Sonnet, and Gemini Pro within a unified workspace. Automatically selects the optimal model.",
+      desc: "Access GPT-4o, Claude 3.5, and Gemini Pro in one workspace.",
       icon: Cpu,
-      badge: "Updated",
-      accent: "from-cyan-500/20 to-pink-500/20",
-      className: "md:col-span-1",
-      visual: (
-        <div className="mt-6 flex flex-col gap-2">
-          <div className="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5 text-xs text-slate-300 font-medium">
-            <span>Claude 3.5 Sonnet</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          </div>
-          <div className="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5 text-xs text-slate-300 font-medium">
-            <span>GPT-4o Engine</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-          </div>
-        </div>
-      )
+      detail: "Our Cognitive Engine automatically selects the optimal AI model—such as GPT-4o, Claude 3.5 Sonnet, or Gemini Pro—based on your specific prompt requirements, ensuring you always receive the highest quality output."
     },
     {
-      title: "Predictive Marketing Analytics",
-      desc: "Analyze content conversions before you publish. Maximize click-through rates on newsletters, headlines, and social copy.",
+      title: "Predictive Analytics",
+      desc: "Analyze content conversions before you publish.",
       icon: BarChart2,
-      accent: "from-pink-500/20 to-blue-500/20",
-      className: "md:col-span-2",
-      visual: (
-        <div className="mt-6 grid grid-cols-3 gap-3">
-          <div className="p-3 rounded-xl bg-white/5 border border-white/5 text-center">
-            <span className="text-[10px] text-slate-400 block uppercase">CTR Boost</span>
-            <span className="text-lg font-bold text-emerald-400 mt-1 block">+27.4%</span>
-          </div>
-          <div className="p-3 rounded-xl bg-white/5 border border-white/5 text-center">
-            <span className="text-[10px] text-slate-400 block uppercase">Read Time</span>
-            <span className="text-lg font-bold text-blue-400 mt-1 block">3.5 Min</span>
-          </div>
-          <div className="p-3 rounded-xl bg-white/5 border border-white/5 text-center">
-            <span className="text-[10px] text-slate-400 block uppercase">Ad Performance</span>
-            <span className="text-lg font-bold text-cyan-400 mt-1 block">Excellent</span>
-          </div>
-        </div>
-      )
+      detail: "Before you publish, our Predictive Analytics tool analyzes your headlines, newsletters, or social media copies. It provides a mathematical forecast of potential click-through rates and engagement metrics to ensure your content performs at its best."
     },
     {
-      title: "Collaborative Team Workspaces",
-      desc: "Create shared prompt libraries, review AI outputs together, and manage roles and permissions across your organization.",
+      title: "Team Workspaces",
+      desc: "Shared prompt libraries and role management for organizations.",
       icon: Users,
-      accent: "from-cyan-500/20 to-teal-500/20",
-      className: "md:col-span-1",
-      visual: (
-        <div className="mt-6 flex -space-x-2 justify-center items-center py-2">
-          {["https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=64", "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=64", "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=64"].map((src, i) => (
-            <img key={i} src={src} alt="Team Member" className="h-8 w-8 rounded-full object-cover ring-2 ring-[#0c0824]" />
-          ))}
-          <div className="h-8 w-8 rounded-full bg-teal-600 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-[#0c0824]">
-            +12
-          </div>
-        </div>
-      )
+      detail: "The Team Workspaces feature allows you to share prompt libraries with your team members and control access permissions based on specific roles, making it an highly effective solution for large organizations and collaborative projects."
     },
     {
       title: "Content Publishing Scheduler",
-      desc: "Integrate with Webflow, WordPress, HubSpot, and social platforms. Queue your AI content for automated publishing.",
+      desc: "Integrate with Webflow, WordPress, HubSpot, and social platforms.",
       icon: Calendar,
-      accent: "from-blue-500/20 to-pink-500/20",
-      className: "md:col-span-1",
-      visual: (
-        <div className="mt-6 p-3 rounded-xl bg-white/5 border border-white/5 text-xs text-slate-300 space-y-2">
-          <div className="flex justify-between items-center text-[10px] text-slate-500">
-            <span>SCHEDULED EXPORT</span>
-            <span>TOMORROW 09:00 AM</span>
-          </div>
-          <div className="flex items-center gap-2 font-medium">
-            <Globe2 className="h-4 w-4 text-cyan-400" />
-            <span>Publish to WordPress</span>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "Built-in Plagiarism & Fact Checker",
-      desc: "Rest easy knowing every sentence is factually verified and completely original. Checks citations and search index sources in real time.",
-      icon: CheckCircle,
-      accent: "from-emerald-500/20 to-teal-500/20",
-      className: "md:col-span-1",
-      visual: (
-        <div className="mt-6 flex items-center gap-2 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
-          <CheckCircle className="h-4 w-4 flex-shrink-0" />
-          <span>No plagiarism detected. 100% Unique.</span>
-        </div>
-      )
+      detail: "Once your content is ready, schedule it directly from our dashboard to Webflow, WordPress, or various social media platforms. It fully automates your publishing process, saving you valuable time and effort."
     }
   ];
 
   return (
-    <section id="features" className="relative py-24 scroll-mt-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-xs font-semibold text-blue-300">
-            Feature Capabilities
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            An Elite Suite for Professional <span className="text-gradient">Content Creators</span>
+    <section className="relative py-20 bg-[#08060f] overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[400px] w-[600px] rounded-full bg-amber-600/[0.06] blur-[120px] pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+            An elite suite for professional <span className="text-amber-400">content creators</span>
           </h2>
-          <p className="mt-4 text-base text-slate-400">
-            Ditch multiple subscription plans. Prompt-Flow gives you enterprise-grade writing, SEO auditing, translation, and code generation models in one workspace.
-          </p>
         </div>
 
-        {/* Bento Grid layout */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {coreFeatures.map((feat, index) => {
-            const Icon = feat.icon;
-            return (
-              <div
-                key={index}
-                className={`group relative overflow-hidden rounded-2xl glass-panel glass-panel-hover p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 ${feat.className || ""}`}
+        {/* Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feat, i) => (
+            <div key={i} className="p-6 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] transition-all flex flex-col h-full">
+              <feat.icon className="h-8 w-8 text-teal-400 mb-4" />
+              <h3 className="text-lg font-bold text-white mb-2">{feat.title}</h3>
+              <p className="text-sm text-white/50 mb-6 flex-grow">{feat.desc}</p>
+              <button 
+                onClick={() => setSelectedFeature(feat)}
+                className="text-teal-500 text-xs font-bold uppercase tracking-widest hover:text-white transition w-fit"
               >
-                {/* Background colored hover glow */}
-                <div className={`absolute -top-1/4 -right-1/4 h-48 w-48 rounded-full bg-gradient-to-tr ${feat.accent} blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-
-                <div>
-                  {/* Top Header Card */}
-                  <div className="flex items-start justify-between">
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-slate-200 group-hover:bg-teal-600 group-hover:border-cyan-500 group-hover:text-white transition-all duration-300">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    {feat.badge && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border border-pink-500/30 bg-pink-500/10 text-pink-300">
-                        {feat.badge}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Title and Description */}
-                  <h3 className="mt-6 text-lg sm:text-xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-200 transition-all">
-                    {feat.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-slate-400 leading-relaxed">
-                    {feat.desc}
-                  </p>
-                </div>
-
-                {/* Render Custom Visual Mockup */}
-                <div>
-                  {feat.visual}
-                  <div className="mt-6 flex items-center gap-1.5 text-xs font-semibold text-teal-400 group-hover:text-indigo-300 transition-colors cursor-pointer">
-                    <span>Learn more</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                Read more →
+              </button>
+            </div>
+          ))}
         </div>
-
       </div>
+
+      {/* Modal */}
+      {selectedFeature && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-[#111] border border-white/10 p-8 rounded-2xl max-w-lg w-full relative animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={() => setSelectedFeature(null)} 
+              className="absolute top-4 right-4 text-white/50 hover:text-white p-2"
+            >
+              <X size={20} />
+            </button>
+            <h3 className="text-2xl font-bold text-white mb-4">{selectedFeature.title}</h3>
+            <p className="text-white/60 leading-relaxed text-sm md:text-base">{selectedFeature.detail}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

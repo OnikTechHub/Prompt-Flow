@@ -1,90 +1,73 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 
 export default function FAQ() {
   const faqs = [
     {
-      q: "How does the Multi-Model cognitive engine work?",
-      a: "Our system analyzes your input prompt for intent, length constraints, and analytical complexity. Based on this, it routes the query to the best-suited model (such as Claude 3.5 Sonnet for logical depth, GPT-4o for marketing copy, or Gemini Pro for large documents). This guarantees you get the absolute best output without managing separate subscriptions."
+      q: "Is there a limit on how many projects I can manage?",
+      a: "Our platform is designed for scale. While our entry-level tiers have project caps to keep things simple, our Growth and Enterprise plans offer unlimited project workspaces to ensure you never hit a wall while expanding your creative operations."
     },
     {
-      q: "Can I use the generated content for commercial purposes?",
-      a: "Yes! All content generated through Prompt-Flow is 100% owned by you. You have full commercial exploitation rights to publish, monetize, sell, or distribute any copy or code snippets generated on our platform."
+      q: "How does the AI ensure brand voice consistency?",
+      a: "We utilize a proprietary fine-tuning layer that analyzes your previously published content. Once set up, the engine applies your unique linguistic patterns, tone, and formatting style across every piece of content you generate."
     },
     {
-      q: "What is the difference between legacy tools and Prompt-Flow?",
-      a: "Legacy tools usually wrap a single basic model and output unstructured plain paragraphs. Prompt-Flow integrates multi-model engines, fine-tuned templates, strict outline-builders, SEO checkers, and developer syntax parsers inside a single premium workspace, delivering production-ready structures instead of plain text."
+      q: "Can I export my generated content to external CMS?",
+      a: "Absolutely. We provide one-click integrations for WordPress, Webflow, and Ghost. Additionally, our API allows developers to hook our output directly into headless CMS structures like Sanity or Contentful."
     },
     {
-      q: "Do you offer custom API endpoints or team licensing?",
-      a: "Absolutely. Our Enterprise plan includes custom API endpoints, shared organization libraries, fine-tuned custom voice models, and priority high-speed tokens. Please contact our sales team to customize a package."
+      q: "How secure is my data within the workspace?",
+      a: "We prioritize security above all else. Your data is encrypted at rest and in transit. We never use your proprietary inputs or generated output to train our public models, ensuring your intellectual property remains exclusively yours."
     },
     {
-      q: "How can I manage my subscription or cancel?",
-      a: "You can upgrade, downgrade, or cancel your subscription at any time directly through the Billing tab in your workspace dashboard. There are no long-term contracts or cancellation fees."
+      q: "Can I switch between plans whenever I need?",
+      a: "We believe in flexibility. You can scale your subscription up or down at any time. Changes take effect immediately, and any unused balance from your previous plan is automatically credited toward your new billing cycle."
     }
   ];
 
   const [openIndex, setOpenIndex] = useState(0);
 
-  const toggleFAQ = (idx) => {
-    setOpenIndex(openIndex === idx ? null : idx);
-  };
-
   return (
-    <section id="faq" className="relative py-24 scroll-mt-16 bg-[#030014]/60">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-[#08060f]">
+      <div className="max-w-3xl mx-auto px-6">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-xs font-semibold text-blue-300">
-            Support Center
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Frequently Asked <span className="text-gradient">Questions</span>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-extrabold text-white mb-4">
+            Commonly Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Queries</span>
           </h2>
-          <p className="mt-4 text-base text-slate-400">
-            Got questions about token allocations, copyrights, or model routing? We&apos;ve got answers.
-          </p>
+          <p className="text-slate-400">Everything you need to know about scaling with our platform.</p>
         </div>
 
-        {/* FAQ Accordion list */}
         <div className="space-y-4">
-          {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
-            return (
-              <div
-                key={idx}
-                className="rounded-2xl glass-panel border border-white/5 overflow-hidden transition-all duration-300"
+          {faqs.map((faq, idx) => (
+            <div
+              key={idx}
+              className={`rounded-2xl border transition-all duration-300 ${
+                openIndex === idx 
+                  ? "bg-white/[0.04] border-indigo-500/30" 
+                  : "bg-white/[0.02] border-white/5 hover:border-white/10"
+              }`}
+            >
+              <button
+                onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                className="w-full flex items-center justify-between p-6 text-left"
               >
-                <button
-                  onClick={() => toggleFAQ(idx)}
-                  className="w-full flex items-center justify-between p-5 text-left text-white hover:bg-white/2 transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    <HelpCircle className="h-5 w-5 text-teal-400 flex-shrink-0" />
-                    <span className="text-sm sm:text-base font-bold">{faq.q}</span>
-                  </div>
-                  <ChevronDown className={`h-5 w-5 text-slate-400 transition-transform duration-300 ${
-                    isOpen ? "transform rotate-180 text-cyan-400" : ""
-                  }`} />
-                </button>
-
-                {/* Accordion Answer Content */}
-                <div className={`transition-all duration-300 ease-in-out ${
-                  isOpen ? "max-h-[300px] border-t border-white/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
-                }`}>
-                  <p className="p-5 text-sm text-slate-400 leading-relaxed">
-                    {faq.a}
-                  </p>
+                <span className="font-bold text-white text-lg">{faq.q}</span>
+                <div className={`p-1 rounded-full transition-transform ${openIndex === idx ? "bg-indigo-600 rotate-180" : "bg-white/10"}`}>
+                  {openIndex === idx ? <Minus size={16} className="text-white" /> : <Plus size={16} className="text-white" />}
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              </button>
 
+              <div className={`grid transition-all duration-300 ${openIndex === idx ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                <p className="overflow-hidden px-6 pb-6 text-slate-400 leading-relaxed text-sm">
+                  {faq.a}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
