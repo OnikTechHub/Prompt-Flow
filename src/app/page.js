@@ -1,0 +1,439 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import TrustedCompanies from "@/components/TrustedCompanies";
+import Features from "@/components/Features";
+import HowItWorks from "@/components/HowItWorks";
+import Categories from "@/components/Categories";
+import Statistics from "@/components/Statistics";
+import Pricing from "@/components/Pricing";
+import Testimonials from "@/components/Testimonials";
+import FAQ from "@/components/FAQ";
+import CTA from "@/components/CTA";
+import Footer from "@/components/Footer";
+import { useAuth } from "../context/AuthContext";
+import api from "../utils/api";
+
+// Additional Lucide icons for dashboard layouts
+import { 
+  Key, ShieldCheck, Mail, CreditCard, Sparkles, 
+  Layers, Copy, Check, Play, RefreshCw, Send, 
+  Trash2, ExternalLink
+} from "lucide-react";
+
+export default function Home() {
+  const router = useRouter();
+  const { isAuthenticated, user, logout, loading } = useAuth();
+  const [copiedKey, setCopiedKey] = useState(false);
+  const [historyItems, setHistoryItems] = useState([]);
+  const [fetchingHistory, setFetchingHistory] = useState(false);
+  const [templates, setTemplates] = useState([]);
+  const [fetchingTemplates, setFetchingTemplates] = useState(false);
+
+  // Fetch real history & templates data from backend Mongoose API
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      if (isAuthenticated) {
+        setFetchingHistory(true);
+        setFetchingTemplates(true);
+        try {
+          const [historyRes, templatesRes] = await Promise.all([
+            api.get("/prompts"),
+            api.get("/templates")
+          ]);
+          if (historyRes.data && historyRes.data.success) {
+            setHistoryItems(historyRes.data.data);
+          }
+          if (templatesRes.data && templatesRes.data.success) {
+            setTemplates(templatesRes.data.data);
+          }
+        } catch (err) {
+          console.error("Failed to fetch dashboard stats:", err.message);
+        }
+        setFetchingHistory(false);
+        setFetchingTemplates(false);
+      }
+    };
+    setTimeout(() => {
+      fetchDashboardStats();
+    }, 0);
+  }, [isAuthenticated]);
+
+  // Loading gate — shown while AuthContext verifies token on mount
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#030014] text-slate-100 flex flex-col items-center justify-center relative px-4">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-25 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[300px] rounded-full bg-cyan-950/10 blur-[100px] pointer-events-none" />
+        <div className="flex flex-col items-center gap-4 relative z-10">
+          <div className="relative">
+            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-teal-600 to-cyan-500 animate-pulse shadow-lg shadow-cyan-500/20 flex items-center justify-center">
+              <Sparkles className="h-6 w-6 text-white animate-spin-slow" />
+            </div>
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-teal-600 to-cyan-500 blur opacity-30 animate-pulse" />
+          </div>
+          <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase animate-pulse">Loading Prompt-Flow...</span>
+        </div>
+      </div>
+    );
+  }
+
+  const handleLogin = () => {
+    router.push("/login");
+  };
+
+  const handleCopyKey = () => {
+    navigator.clipboard.writeText("pc_live_51Ny93KjUu8B3a7Fh4oPq92Jz");
+    setCopiedKey(true);
+    setTimeout(() => setCopiedKey(false), 2000);
+  };
+
+  const handlePromptGenerated = async (promptData) => {
+    try {
+      const res = await api.post("/prompts", promptData);
+      if (res.data && res.data.success) {
+        setHistoryItems(prev => [res.data.data, ...prev]);
+      }
+    } catch (err) {
+      console.error("Failed to log prompt completion:", err.message);
+    }
+  };
+
+  const handleDeleteHistory = async (id) => {
+    try {
+      const res = await api.delete(`/prompts/${id}`);
+      if (res.data && res.data.success) {
+        setHistoryItems(historyItems.filter(item => item._id !== id));
+      }
+    } catch (err) {
+      console.error("Failed to delete history item:", err.message);
+    }
+  };
+  const myTemplatesCount = templates.filter(t => t.createdBy === user?._id || t.createdBy?._id === user?._id).length;
+  const myGenerationsCount = historyItems.length;
+  const accountCreatedDate = user?.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) : "N/A";
+
+  return (
+    <div className="min-h-screen bg-[#030014] text-slate-100 flex flex-col font-sans select-none scroll-smooth relative">
+      {/* Background grid lines pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-25 pointer-events-none" />
+      
+      {/* Dynamic ambient background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[500px] w-full max-w-7xl bg-gradient-to-b from-teal-500/10 via-transparent to-transparent blur-[120px] pointer-events-none" />
+
+      <Navbar />
+      
+      {/* Main Content Layout */}
+      <main className="flex-1 relative z-10 pt-16">
+        
+        {/* LOGGED OUT VIEWPORT PANELS */}
+        {!isAuthenticated ? (
+          <>
+            <div id="home">
+              <Hero isAuthenticated={isAuthenticated} onLogin={handleLogin} />
+            </div>
+            <TrustedCompanies />
+            <div id="about">
+              <Features />
+              <HowItWorks />
+            </div>
+            <div id="explore">
+              <Categories />
+            </div>
+            <Statistics />
+            <Pricing />
+            <Testimonials />
+            <FAQ />
+            <div id="contact">
+              <CTA onLogin={handleLogin} />
+            </div>
+          </>
+        ) : (
+          /* LOGGED IN WORKSPACE DASHBOARD PANELS */
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+            
+            {/* 1. HOME PANEL (Logged-in welcome & stats summary) */}
+            <section id="home" className="scroll-mt-20">
+              <div className="p-8 sm:p-10 rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-950/30 via-[#0c0824] to-[#030014] relative overflow-hidden">
+                <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-cyan-950/10 blur-3xl pointer-events-none" />
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div>
+                    <span className="px-3 py-1 rounded-full border border-cyan-500/30 bg-teal-500/10 text-xs font-semibold text-cyan-300">
+                      Pro Workspace Unlocked
+                    </span>
+                    <h2 className="mt-4 text-3xl font-extrabold text-white tracking-tight">
+                      Welcome back, <span className="text-gradient">{user?.name || "User"}</span>
+                    </h2>
+                    <p className="mt-2 text-sm text-slate-400 max-w-xl">
+                      Select templates below, configure custom routing, or copy active API credentials to initiate workspace generation tools.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button 
+                      onClick={() => document.getElementById("workspace")?.scrollIntoView({ behavior: "smooth" })}
+                      className="px-5 py-3 rounded-xl bg-teal-600 hover:bg-purple-700 text-sm font-bold text-white shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
+                    >
+                      Open AI Playground
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* 2. EXPLORE PANEL (Preset templates catalog) */}
+            <div id="explore" className="scroll-mt-20">
+              <Categories />
+            </div>
+
+            {/* 3. DASHBOARD PANEL (Usage metrics, circular charts) */}
+            <section id="dashboard" className="scroll-mt-20 space-y-8">
+              <div className="max-w-3xl">
+                <h3 className="text-2xl font-extrabold text-white tracking-tight">Workspace Usage Dashboard</h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Track dynamic token depletion metrics, billing metrics, and resource credits.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Chart 1: Words Counter */}
+                <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:border-white/15 transition-all">
+                  <div className="flex justify-between items-center text-xs font-semibold text-slate-400">
+                    <span>Monthly Word Allowance</span>
+                    <span className="text-cyan-400">24,500 / 100,000 words</span>
+                  </div>
+                  <div className="mt-6 flex items-center justify-center">
+                    {/* SVG Radial ring */}
+                    <div className="relative h-24 w-24 flex items-center justify-center">
+                      <svg className="absolute transform -rotate-90 w-full h-full" viewBox="0 0 36 36">
+                        <path className="text-slate-800" strokeWidth="2.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path className="text-cyan-500" strokeDasharray="24.5, 100" strokeWidth="3" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      </svg>
+                      <span className="text-sm font-bold text-white">24.5%</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-xs text-slate-500 text-center font-medium">
+                    Resetting in 14 days (August 1st)
+                  </div>
+                </div>
+
+                {/* Chart 2: Active Keys */}
+                <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:border-white/15 transition-all">
+                  <div className="flex justify-between items-center text-xs font-semibold text-slate-400">
+                    <span>Multi-Model Balance</span>
+                    <span className="text-blue-400">Optimal Routing</span>
+                  </div>
+                  <div className="mt-4 space-y-3">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-300">Claude 3.5 (Logic)</span>
+                      <span className="font-semibold text-white">45% shares</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-teal-500 rounded-full w-[45%]" />
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-300">GPT-4o (Copywriting)</span>
+                      <span className="font-semibold text-white">55% shares</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-500 rounded-full w-[55%]" />
+                    </div>
+                  </div>
+                  <div className="mt-6 text-xs text-slate-500 text-center font-medium">
+                    Adjust share ratios in settings
+                  </div>
+                </div>
+
+                {/* Chart 3: Speed index */}
+                <div className="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:border-white/15 transition-all">
+                  <div className="flex justify-between items-center text-xs font-semibold text-slate-400">
+                    <span>Performance Speed Metrics</span>
+                    <span className="text-emerald-400">Excellent</span>
+                  </div>
+                  <div className="mt-4 text-center">
+                    <span className="text-3xl font-extrabold text-white">3.12s</span>
+                    <span className="text-[10px] text-slate-500 block uppercase font-bold mt-1">Average Model Response Latency</span>
+                  </div>
+                  <div className="mt-6 text-xs text-slate-500 text-center font-medium">
+                    10x speed boost compared to manual writing
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* 4. AI WORKSPACE PANEL (Prompt-to-code simulator playground) */}
+            <section id="workspace" className="scroll-mt-20 space-y-6">
+              <div className="max-w-3xl">
+                <h3 className="text-2xl font-extrabold text-white tracking-tight">AI Playground Workspace</h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Select predefined tabs or type complex prompt queries to stream AI content immediately.
+                </p>
+              </div>
+              <Hero isAuthenticated={isAuthenticated} onLogin={handleLogin} onPromptGenerated={handlePromptGenerated} />
+            </section>
+
+            {/* 5. HISTORY PANEL (List of past prompts with delete / copy metrics) */}
+            <section id="history" className="scroll-mt-20 space-y-6">
+              <div className="max-w-3xl">
+                <h3 className="text-2xl font-extrabold text-white tracking-tight">My Generation History</h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Manage recently generated snippets, copy logs, or clear storage history.
+                </p>
+              </div>
+
+              <div className="glass-panel rounded-2xl border border-white/10 overflow-hidden">
+                {historyItems.length > 0 ? (
+                  <div className="divide-y divide-white/5">
+                    {historyItems.map((item) => (
+                      <div key={item._id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/2 transition-colors">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-bold text-white truncate max-w-md">
+                              &quot;{item.prompt}&quot;
+                            </span>
+                            <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-[9px] font-bold text-slate-400 uppercase tracking-wider">
+                              {item.category}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
+                            <span>{new Date(item.createdAt).toLocaleDateString()} at {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            <span>•</span>
+                            <span>{item.words} words generated</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button 
+                            onClick={() => {
+                              navigator.clipboard.writeText(item.prompt);
+                            }}
+                            className="p-2 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                            title="Copy Prompt"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteHistory(item._id)}
+                            className="p-2 rounded-lg bg-pink-500/10 border border-pink-500/10 hover:border-pink-500/20 text-pink-400 hover:bg-pink-500/20 transition-colors cursor-pointer"
+                            title="Delete Log"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-12 text-center text-slate-500 italic">
+                    No history items found. Run prompts in the AI playground to populate your history.
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* 6. PROFILE PANEL (User detail configurations, API settings keys) */}
+            <section id="profile" className="scroll-mt-20 space-y-6">
+              <div className="max-w-3xl">
+                <h3 className="text-2xl font-extrabold text-white tracking-tight">Account Profile & Settings</h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  Manage active API credentials, secret tokens, and organization billing limits.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Profile Card */}
+                <div className="lg:col-span-5 glass-panel rounded-2xl p-6 space-y-6 hover:border-white/15 transition-all">
+                  <div className="flex items-center gap-4">
+                    {user?.profilePhoto || user?.avatar ? (
+                      <img 
+                        src={user.profilePhoto || user.avatar} 
+                        alt="User avatar" 
+                        className="h-14 w-14 rounded-full object-cover ring-2 ring-cyan-500"
+                      />
+                    ) : (
+                      <div className="h-14 w-14 rounded-full bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-white text-xl font-extrabold shadow ring-2 ring-cyan-500">
+                        {user?.name?.charAt(0).toUpperCase() || "U"}
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="font-bold text-white">{user?.name || "User"}</h4>
+                      <span className="text-xs text-cyan-400 font-semibold block uppercase">
+                        {user?.role || "User"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3.5 border-t border-white/5 pt-6 text-xs text-slate-300">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Email Address</span>
+                      <span className="font-semibold text-white">{user?.email || "N/A"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Account Type</span>
+                      <span className="font-semibold text-white capitalize">{user?.role || "User"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Account Status</span>
+                      <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold">
+                        <ShieldCheck className="h-3.5 w-3.5" />
+                        {user?.status || "Active"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Workspace Information Card */}
+                <div className="lg:col-span-7 glass-panel rounded-2xl p-6 space-y-6 hover:border-white/15 transition-all flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-teal-400 font-semibold text-sm">
+                      <Layers className="h-4.5 w-4.5" />
+                      <span>Workspace Information</span>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Overview of your current workspace statistics, blueprint creations, and log activities.
+                    </p>
+                  </div>
+
+                  <div className="space-y-3.5 border-t border-white/5 pt-4 text-xs text-slate-300">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Total Templates Created</span>
+                      <span className="font-semibold text-white">{myTemplatesCount}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Total AI Generations</span>
+                      <span className="font-semibold text-white">{myGenerationsCount}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Account Created Date</span>
+                      <span className="font-semibold text-white">{accountCreatedDate}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Last Login Status</span>
+                      <span className="font-semibold text-white">Current Session (Active)</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 pt-4 border-t border-white/5">
+                    <button 
+                      onClick={() => document.getElementById("workspace")?.scrollIntoView({ behavior: "smooth" })}
+                      className="flex items-center gap-1.5 text-xs text-cyan-400 hover:text-cyan-300 font-semibold cursor-pointer"
+                    >
+                      <span>Enter AI Workspace</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        )}
+      </main>
+
+      {/* Brand Footer */}
+      <Footer />
+    </div>
+  );
+}

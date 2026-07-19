@@ -1,0 +1,10 @@
+﻿
+src\components\Statistics.js:43:              <span>PROMPTCRAFT ENGINE</span>
+server\.env:2:MONGO_URI=mongodb+srv://promptcraft:RxeKCQVE6hi1OqRu@tania-shahida.nhmj7ah.mongodb.net/promptcraft?retryW
+rites=true&w=majority&appName=Tania-shahida
+server\.env:3:JWT_SECRET=supersecret_promptcraft_token_signature_key_998877
+server\.env.example:1:# PromptCraft AI Express.js Backend Production Configuration
+server\.env.example:5:MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/promptcraft?retryWrites=true&w
+=majority
+
+
