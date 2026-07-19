@@ -263,33 +263,6 @@ http://localhost:3000
 
 ---
 
-# 🔐 Authentication Flow
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant API
-    participant Google
-
-    User->>API: Login with Google
-
-    API->>Google: Redirect to OAuth
-
-    Google-->>User: Authentication Screen
-
-    User->>Google: Approve Access
-
-    Google-->>API: Callback Code
-
-    API->>API: Verify User
-
-    API->>API: Generate JWT
-
-    API-->>User: Login Success
-```
-
----
-
 # 📊 Dashboard Features
 
 ✔ Total Prompts
@@ -366,23 +339,6 @@ Use **MongoDB Atlas**
 
 ---
 
-# 📸 Screenshots
-
-Add screenshots here.
-
-```
-Home Page
-
-Dashboard
-
-AI Workspace
-
-Community Gallery
-
-Analytics
-```
-
----
 
 # 🔮 Future Improvements
 
